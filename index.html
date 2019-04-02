@@ -22,13 +22,26 @@
         				<input type="text" placeholder="Search for posters" required v-model="search">
         				<input type="submit" value="Search" class="btn">
       			</form>
+      			<p>Try search terms <em>cat, dog, flower</em></p>
         </div>
     </div>
     <div class="main container">      
     		<div class="products">
+    				<div v-if="loading">
+    						Loading...
+    				</div>
+    				<div class="search-results" v-else>
+    						Found {{ products.length }} results for search term <em>{{ lastSearch }}</em>.
+    				</div>
       			<div class="product" v-for="product in products" v-bind:key="product.id">
         				<div>
+        						<div class="product-image">
+        								<img v-bind:src="product.thumb" alt="">
+        						</div>
+        				</div>
+        				<div>
           					<h4 class="product-title">{{ product.title }}</h4>
+          					<p class="product-price"><strong>{{ product.price | currency }}</strong></p>
           					<button v-on:click="addItem(product)" class="add-to-cart">Add to cart</button>
         				</div>
       			</div>
@@ -42,7 +55,6 @@
             				<button class="btn" v-on:click="inc(item)">+</button>
             				<button class="btn" v-on:click="dec(item)">-</button>
           			</li>
-
         		</ul>
         		<div v-if="cart.length">
           			<div class="cart-total">Total: {{ total | currency }}</div>
