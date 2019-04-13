@@ -137,14 +137,21 @@ new Vue({
 			this.$http.get(path)
 				.then(function(response){
 					setTimeout(function(){
-						this.products = response.body;
+						this.results = response.body; 
 						this.lastSearch = this.search;
+						this.appendResults();
 						this.loading = false;
 					}.bind(this), 3000); 
 				});
 		},
 		appendResults: function() {
-			console.log("Append results");
+			if(this.products.length < this.results.length) {
+				var toAppend = this.results.slice(
+					this.products.length, 
+					LOAD_NUM + this.products.length
+				);
+				this.products = this.products.concat(toAppend);
+			}
 		}
 	},
 	filters: {
