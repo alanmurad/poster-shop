@@ -112,18 +112,17 @@ new Vue({
 			if (!found) {
 				this.cart.push({
 					id: product.id,
+					title: product.title,
 					price: product.price,
 					qty: 1
 				});
 			}
 		},
 		inc: function(item) {
-			console.log("inc");
 			item.qty++;
 			this.total += item.price;
 		},
 		dec: function(item) {
-			console.log("dec");
 			item.qty--;
 			this.total -= item.price;
 			if (item.qty <= 0) {
@@ -138,12 +137,10 @@ new Vue({
 			var path = "/search?q=".concat(this.search);
 			this.$http.get(path)
 				.then(function(response){
-					setTimeout(function(){
-						this.results = response.body; 
-						this.lastSearch = this.search;
-						this.appendResults();
-						this.loading = false;
-					}.bind(this), 3000); 
+					this.results = response.body; 
+					this.lastSearch = this.search;
+					this.appendResults();
+					this.loading = false; 
 				});
 		},
 		appendResults: function() {
